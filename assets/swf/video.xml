@@ -1,0 +1,29 @@
+<?xml version = '1.0'?>
+<my_params>
+  <stage>
+    <panowindow fullstage="yes" posx="0" posy="0" width="640" height="360" />
+    <panorama_controller xml_path="PanoramaCtrl01.xml" posx="40" posy="-5"/>
+    <video_controller xml_path="IntegratedCtrl.xml" posx="" posy=""/>
+    <cursor path="my_cursor.png" />
+  </stage>
+  <caps>
+  	<path_zenith="" />
+  	<path_nadir="" />
+  </caps>
+  <user_panel>
+    <logo path="bubblepixlogo.png" posx="10" posy="10" />
+  </user_panel>
+  <play_objects>
+    <auto init_start="yes" pan_speed="-0.05" />
+    <crop width="0.655" height="0.871" cx="0.456" cy="0.504" inner_circle="0.317" />
+    <behavior pause_on_start="no" />
+    <projection proj_type="2" elevation="30" depression="65" implicit="no" />
+    <view  flip_vertical="no" flip_horizontal="yes" init_fov="90" init_yaw="-35" init_pitch="-9" lock_nadirs="no" lock_vertical="no" limit_vertical="yes" top_limit="29" bottom_limit="68" init_filter="yes" />
+
+  </play_objects>
+  <sphere_context>
+    <normal show_item="yes" on_caption="--> Rectilinear projection" off_caption=" Rectilinear projection" />
+    <bipolar show_item="yes" on_caption="--> Stereographic projection" off_caption=" Stereographic projection" />
+  </sphere_context>	
+</my_params>
+

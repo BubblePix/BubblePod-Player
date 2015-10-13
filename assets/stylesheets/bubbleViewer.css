@@ -1,0 +1,166 @@
+#bubblerPlayback div.flagged{
+	color: #95C404;
+	font-size: 14px;
+	padding-left: 18px;
+	padding-top: 6px;
+}
+
+#viewBubble .editTitle{
+	position: absolute;
+	padding-left: 20px;
+}
+
+#viewBubble .bubbleViewer{
+	z-index: 1;
+	margin: 18px;
+	width:610px;
+	height:244px;
+	background: lightgrey;
+	position:relative;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#viewBubble .bubblePod{
+	height:344px;
+}
+#viewBubble #bubblerPlayback div.loading{
+	margin-left:258px;
+	margin-top:125px;
+	position: absolute;
+	z-index: 5;
+}
+	
+#bubble{
+	width: 100%;
+	height: 100%;
+	position:relative;
+	z-index: 1;
+	user-select: none;
+}
+
+#ui{
+	position: absolute;
+	z-index: 2;
+	width:100%;
+	height:100%;
+	pointer-events:none;
+	display: none;
+}
+#logo{
+	position: absolute;
+	left: 5px;
+	top: 5px;
+}
+
+#logo img{
+	width: 60px;
+	height: 60px;
+}
+
+#playVideo {
+	position: absolute;
+	left: 42%;
+	top:29%;
+	pointer-events:all;
+	cursor: pointer;
+}
+
+#fullscreen, #fullscreen_off{
+	position:absolute;
+	right:5px;
+	bottom:5px;
+	pointer-events:all;
+	cursor: pointer;
+	display:none;
+}
+
+#fullscreen img, #fullscreen_off img{
+	width: 20px;
+	height: 20px;
+}
+
+#rotate, #rotate_off{
+	position:absolute;
+	right:33px;
+	bottom:5px;
+	pointer-events:all;
+	cursor: pointer;
+	display:none; /* hidden initially */
+	color: #de005b;
+	font-family:Verdana,Arial,Helvetica, sans-serif;
+}
+
+#rotate_left{
+	position:absolute;
+	left:40%;
+	bottom:5px;
+	pointer-events:all;
+	cursor: pointer;
+	display:none; /* hidden initially */
+}
+
+#rotate_right{
+	position:absolute;
+	left:60%;
+	bottom:5px;
+	pointer-events:all;
+	cursor: pointer;
+	display:none; /* hidden initially */
+}
+
+#rotate img, #rotate_off img, #rotate_left img, #rotate_right img{
+	width: 20px;
+	height: 20px;
+}
+
+#viewBubble div.userDetails{
+	margin-left: 20px;
+	float: left;
+	font-size: 10px;
+	color: #929292;
+	line-height: 20px;
+}
+
+#viewBubble img.userThumb{
+	margin-top: 0px;
+	margin-left: 3px;
+	float: left;
+	margin-right: 10px;
+	background: white;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px 1px #ccc;
+	padding: 5px;
+}
+
+#viewBubble span.name{
+	color: #95c404;
+	font-size: 15px;
+	padding-left: 0px;
+}
+
+#viewBubble span.location{
+	color: #464644;
+	font-size: 12px;
+	padding-left: 0px
+}
+
+#viewBubble div.userName{
+	float: left;
+}
+
+#viewBubble div.bubbleDetails{
+	float: left;
+	padding-top: 4px;
+	font-size: 10px;
+	color: #929292;
+	line-height: 16px;
+}
+
+#viewBubble div.bubbleDetails span.bold{
+	font-weight: bold;
+}

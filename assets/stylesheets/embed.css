@@ -1,0 +1,114 @@
+html,body {
+    height:100%;
+	background: white;
+}
+
+.bubbleViewer canvas{
+	width: 100%;
+}
+
+#viewBubble .bubbleViewer{
+	z-index: 1;
+	margin: 18px;
+	width:610px;
+	height:244px;
+	background: lightgrey;
+	position:relative;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	
+	box-shadow: 0px 1px 4px 0px #b3b3b3;
+	-moz-box-shadow: 0px 1px 4px 0px #b3b3b3;
+	-webkit-box-shadow: 0px 1px 4px 0px #b3b3b3;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+#viewBubble .bubblePod{
+	height:344px;
+}
+
+div.loading{
+	margin-left: 45%;
+	margin-top: 50%;	
+	z-index: 5;
+}
+
+	
+#bubble{
+	width: 100%;
+	height: 100%;
+	position:relative;
+	z-index: 1;
+	user-select: none;
+}
+
+#ui{
+	position: absolute;
+	z-index: 2;
+	width:100%;
+	height:100%;
+	pointer-events:none;
+	display: none;
+}
+#logo{
+	position: absolute;
+	left: 15px;
+	top: 5px;
+}
+
+#logo img{
+	width: 60px;
+	height: 60px;
+}
+
+#fullscreen, #fullscreen_off{
+	position:absolute;
+	right:5px;
+	bottom:5px;
+	pointer-events:all;
+	cursor: pointer;
+	display: none;
+}
+
+#fullscreen img, #fullscreen_off img{
+	width: 20px;
+	height: 20px;
+}
+
+#rotate, #rotate_off{
+	position:absolute;
+	right:33px;
+	bottom:5px;
+	pointer-events:all;
+	cursor: pointer;
+	display:none; /* hidden initially */
+	color: #de005b;
+	font-family:Verdana,Arial,Helvetica, sans-serif;
+}
+
+#rotate_left{
+	position:absolute;
+	left:45%;
+	bottom:5px;
+	pointer-events:all;
+	cursor: pointer;
+}
+
+#rotate_right{
+	position:absolute;
+	left:55%;
+	bottom:5px;
+	pointer-events:all;
+	cursor: pointer;
+}
+
+#rotate img, #rotate_off img, #rotate_left img, #rotate_right img{
+	width: 30px;
+	height: 30px;
+}

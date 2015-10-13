@@ -1,0 +1,29 @@
+<?xml version = '1.0'?>
+<my_params>
+  <stage>
+    <panowindow fullstage="yes" posx="0" posy="0" width="640" height="360" />
+    <panorama_controller xml_path="PanoramaCtrl01.xml" posx="40" posy="-5"/>
+    <video_controller xml_path="IntegratedCtrl.xml" posx="" posy=""/>
+    <sandglass path="my_sandglass.png" />
+    <cursor path="my_cursor.png" />
+  </stage>
+  <context_menu>
+	<about_me my_name="Bubblepix Ltd" my_link="http://bubblepix.com"/>
+  </context_menu>
+  <user_panel>
+    <logo path="bubblepixlogo.png" posx="10" posy="10" />
+  </user_panel>
+  <play_objects>
+    <auto init_start="yes" pan_speed="-0.05" />
+    <crop width="0.596784" height="0.799" cx="0.470183" cy="0.528125" inner_circle="0.39174" />
+    <behavior pause_on_start="no" />
+    <projection proj_type="2" elevation="42.5" depression="42.5" implicit="no" />
+    <view  flip_vertical="no" flip_horizontal="yes" init_fov="90" init_yaw="0" init_pitch="-9" lock_nadirs="no" lock_vertical="no" limit_vertical="yes" top_limit="40" bottom_limit="40" init_filter="yes" />
+	<image cross_domain="yes"/>
+  </play_objects>
+  <sphere_context>
+    <normal show_item="yes" on_caption="--> Rectilinear projection" off_caption=" Rectilinear projection" />
+    <bipolar show_item="yes" on_caption="--> Stereographic projection" off_caption=" Stereographic projection" />
+  </sphere_context>	
+</my_params>
+

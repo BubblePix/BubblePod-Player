@@ -1,0 +1,10 @@
+﻿<?xml version = '1.0'?>
+<my_params>
+<stage>
+<panorama_controller xml_path="ArrowButtons.xml" posx="" posy="-25" init_show="yes" />
+</stage>
+<play_objects>
+		<image path="my_panorama.jpg" />
+<view init_filter="yes" />
+</play_objects>
+</my_params>
