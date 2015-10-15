@@ -59,6 +59,8 @@
 	//Variable to hold the size of the canvas
 	var size, cWidth, cHeight;
 	var canvasImageData, textureImageData;
+	//store init sizes so when scaling we have a return point
+	var origSize, origWidth, origHeight;
 
 	// Number of frames for one complete rotation.
 	var fpr = 8;
@@ -373,8 +375,16 @@
 				var xRotNumber = xRot;
 
 				var xNumber = 0;
-
-				xNumber = xMovement;
+				
+				if (!mouseIsDown && !auto_rotate) {
+				
+					xMovement = xMovement / 1.1;
+					xNumber = xMovement;
+				} else {
+					xNumber = xMovement;
+				}
+				
+				
 				var startTime2Render = new Date().getTime();
 				var idxC = (pixel - 1) * 4;
 				var vector;
@@ -917,7 +927,7 @@
 
 	var frames = 0;
 	function setFOV(fov) {
-		////console.log("Changing FOV to " + fov);
+		console.log("Changing FOV to " + fov);
 		var aspect = cWidth / cHeight;
 		FOV = fov;
 		ry = 90;
@@ -1041,8 +1051,8 @@
 			alert("ERROR: Invalid XML Data");
 		}
 
-		cHeight = gCanvas.height;
-		cWidth = gCanvas.width;
+		origHeight = cHeight = gCanvas.height;
+		origWidth = cWidth = gCanvas.width;
 		size = gCanvas.width;
 		hs_ch = ((hs) / cWidth);
 		vs_cv = ((vs) / (cHeight));
@@ -1266,6 +1276,10 @@
 	var isFullScreen = false;
 	var onMouseDownEventX = 0;
 	var onMouseDownEventY = 0;
+	var onTouchFirstEventX = 0;
+	var onTouchFirstEventY = 0;
+	var onTouchSecondEventX = 0;
+	var onTouchSecondEventY = 0;
 	var eventMouseX = 0;
 	var eventMouseY = 0;
 	var xMovement = 0;
@@ -1276,6 +1290,7 @@
 	var canWidth = originalCanWidth;
 	var canHeight = originalCanWidth * 2;
 	var originalImage = undefined;
+	var scaling = false;
 
 	var isUnWrappedImage = false;
 	var isUnWrappedVideo = false;
@@ -1516,10 +1531,20 @@
 		if (event.touches != undefined) {
 			eventMouseX = event.touches[0].clientX;
 			eventMouseY = event.touches[0].clientY;
+			
+			if (event.touches.length == 2) { //pinch
+			scaling = true;
+			onTouchFirstEventX = event.touches[0].clientX;
+			onTouchFirstEventY = event.touches[0].clientY;
+			onTouchSecondEventX = event.touches[1].clientX;
+			onTouchSecondEventY = event.touches[1].clientY;
+			}
 		} else {
 			eventMouseX = event.clientX;
 			eventMouseY = event.clientY;
 		}
+		
+		
 		//eventMouseY = event.clientY;
 		isUserInteracting = true;
 
@@ -1537,6 +1562,7 @@
 
 	function mouseUpEvent(event) {
 		isUserInteracting = false;
+		scaling = false;
 		mouseIsDown = false;
 		if (event.touches != undefined) {
 			eventMouseX = eventMouseX;
@@ -1546,8 +1572,6 @@
 			eventMouseY = eventMouseY;
 		}
 		yRot += yMovement;
-		xMovement = 0;
-		yMovement = 0;
 		
 		if (auto_rotate)
 			xMovement = 0.000002;
@@ -1572,7 +1596,46 @@
 	var yRotVal = 0;
 	function mouseMoveEvent(event) {
 		event.preventDefault();
-		if (isUserInteracting) {
+		if (scaling && event.touches.length == 2 && event.touches != undefined) {
+			//find change in pinch to zoom
+			var newTouchX1 = event.touches[0].clientX;
+			var newTouchY1 = event.touches[0].clientY;
+			var newTouchX2 = event.touches[1].clientX;
+			var newTouchY2 = event.touches[1].clientY;
+			
+			//distance 1
+			var distance1 = ((onTouchFirstEventX-onTouchSecondEventX)*(onTouchFirstEventX-onTouchSecondEventX))+
+							((onTouchFirstEventY-onTouchSecondEventY)*(onTouchFirstEventY-onTouchSecondEventY));
+			console.log("distance 1 " + distance1);					
+			var distance2 = ((newTouchX1 - newTouchX2) * (newTouchX1 - newTouchX2)) +
+								 ((newTouchY1 - newTouchY2) * (newTouchY1 - newTouchY2));
+			console.log("distance 2 " + distance2);					
+			if (distance1 < distance2) { //zoom in
+				
+				FOV -= 5;
+				FOV = Math.max(20, FOV);
+				console.log("zoom in FOV: " + FOV);
+			} else if (distance1 > distance2) { //zoom out
+				
+				FOV += 5;
+				FOV = Math.min(100, FOV);
+				console.log("zoom out FOV: " + FOV);
+			}
+			var scale = 1.0;
+			if (distance1 != 0) {
+				scale = distance2 / distance1;
+			}
+			
+			onTouchFirstEventX = newTouchX1;
+			onTouchSecondEventX = newTouchX2;
+			onTouchFirstEventY = newTouchY1;
+			onTouchSecondEventY = newTouchY2;
+			
+			//instead of changing the fov, change the size of the image
+			console.log(scale);
+			changeZoom(scale);
+		
+		}else if (isUserInteracting) {
 			if (event.touches != undefined) {
 				eventMouseX = event.touches[0].clientX;
 				eventMouseY = event.touches[0].clientY;
@@ -1583,7 +1646,7 @@
 			//eventMouseY = event.clientY;
 			yMovement = ~~((onMouseDownEventY - eventMouseY) / 2);
 			// / 20000000;
-			xMovement = (onMouseDownEventX - eventMouseX) / 2500000;
+			xMovement = ((onMouseDownEventX - eventMouseX) + xMovement) / 2500000;
 
 			if (auto_rotate)
 				xMovement += 0.000002;
@@ -1591,6 +1654,18 @@
 			//yMovement = (onMouseDownEventY - eventMouseY);
 			//yRotVal = yMovement + yRot;
 		}
+	}
+	
+	function changeZoom ( scale ) {
+		//update the view when the user zooms in, 
+		
+		//This just prints out the new sizes at the moment, something is not working in it yet
+		
+		//min - original, max = x4 zoom
+		console.log(Math.max(origWidth, (Math.min(origWidth * 2, cWidth * scale))));
+		console.log(Math.max(origHeight, (Math.min(origHeight * 2, cHeight * scale))));
+		
+		//adjust position so that centre is maintained
 	}
 
 	var lastLegitYRot = 0;
@@ -1687,12 +1762,14 @@
 	}
 
 	function mouseScrollEvent(event) {
+	
 		if (event.wheelDeltaY) {
-			if (event.wheelDeltaY < 0 && FOV < 21)
+			if (event.wheelDeltaY < 0 && FOV < 21) {
 				setFOV(34);
-			else if (event.wheelDeltaY > 0 && FOV > 33)
+			}else if (event.wheelDeltaY > 0 && FOV > 33) {
 				setFOV(20);
 			// Opera / Explorer 9
+			}
 		} else if (event.wheelDelta) {
 			if (event.wheelDelta > 0 && FOV < 21)
 				setFOV(34);
