@@ -480,75 +480,75 @@
 		rz = RZ * Math.PI / 180;
 	}
 
-	function cropBubblePodImage(imageData, outerWidth, outerHeight, innerWidth, innerHeight) {
-
-		var innerImageMinDiam = bubble_details.minDiam;
-		var innerImageMaxDiam = bubble_details.maxDiam;
-
-		var imagePixels = imageData.data;
-		var pixelOffset = outerHeight / 2 - innerHeight / 2;
-		var minPixel = innerHeight * innerImageMinDiam;
-		minPixel += pixelOffset;
-		minPixel = Math.floor(minPixel);
-		var maxPixel = innerHeight * innerImageMaxDiam;
-		maxPixel += pixelOffset;
-		maxPixel = Math.floor(maxPixel);
-		//console.log(minPixel + " min:max " + maxPixel);
-		//console.log(outerHeight + " outWidth:outHeight " + outerWidth);
-		var buf = [];
-
-		var pixelIndex = 0;
-		for (var x = 0; x < outerWidth; x++) {
-			for (var y = 0; y < outerHeight; y++) {
-				pixelIndex = (y * outerWidth + x) * 4;
-				if (y < minPixel || y > maxPixel) {
-					imagePixels[pixelIndex + 0] = 0;
-					imagePixels[pixelIndex + 1] = 0;
-					imagePixels[pixelIndex + 2] = 0;
-					imagePixels[pixelIndex + 3] = 0;
-				} else {
-
-					var xPix = imagePixels[pixelIndex];
-					var yPix = imagePixels[pixelIndex + 1];
-					var zPix = imagePixels[pixelIndex + 2];
-					var wPix = 255;
-					buf.push(xPix);
-					buf.push(yPix);
-					buf.push(zPix);
-					buf.push(wPix);
-
-					imagePixels[pixelIndex + 0] = 0;
-					imagePixels[pixelIndex + 1] = 0;
-					imagePixels[pixelIndex + 2] = 0;
-					imagePixels[pixelIndex + 3] = 0;
-
-				}
-			}
-		}
-
-		//redraw & reposition
-		var newHeight = maxPixel - minPixel;
-		var startPixel = Math.floor(outerHeight / 2 - newHeight / 2);
-		var bufferIndex = 0;
-		//console.log("Start Y " + startPixel);
-		//console.log("New Height " + newHeight);
-		//console.log("OuterHeight" + outerHeight);
-		textureClampHeight = newHeight;
-		for (var u = 0; u < outerWidth; u++) {
-			for (var v = startPixel; v <= startPixel + newHeight; v++) {
-				pixelIndex = (v * outerWidth + u) * 4;
-				if (v >= startPixel && v <= startPixel + newHeight) {
-					imagePixels[pixelIndex + 0] = buf[bufferIndex + 0];
-					imagePixels[pixelIndex + 1] = buf[bufferIndex + 1];
-					imagePixels[pixelIndex + 2] = buf[bufferIndex + 2];
-					imagePixels[pixelIndex + 3] = buf[bufferIndex + 3];
-					bufferIndex += 4;
-				}
-			}
-		}
-		buf = null;
-		return imageData.data;
-	}
+//	function cropBubblePodImage(imageData, outerWidth, outerHeight, innerWidth, innerHeight) {
+//
+//		var innerImageMinDiam = bubble_details.minDiam;
+//		var innerImageMaxDiam = bubble_details.maxDiam;
+//
+//		var imagePixels = imageData.data;
+//		var pixelOffset = outerHeight / 2 - innerHeight / 2;
+//		var minPixel = innerHeight * innerImageMinDiam;
+//		minPixel += pixelOffset;
+//		minPixel = Math.floor(minPixel);
+//		var maxPixel = innerHeight * innerImageMaxDiam;
+//		maxPixel += pixelOffset;
+//		maxPixel = Math.floor(maxPixel);
+//		//console.log(minPixel + " min:max " + maxPixel);
+//		//console.log(outerHeight + " outWidth:outHeight " + outerWidth);
+//		var buf = [];
+//
+//		var pixelIndex = 0;
+//		for (var x = 0; x < outerWidth; x++) {
+//			for (var y = 0; y < outerHeight; y++) {
+//				pixelIndex = (y * outerWidth + x) * 4;
+//				if (y < minPixel || y > maxPixel) {
+//					imagePixels[pixelIndex + 0] = 0;
+//					imagePixels[pixelIndex + 1] = 0;
+//					imagePixels[pixelIndex + 2] = 0;
+//					imagePixels[pixelIndex + 3] = 0;
+//				} else {
+//
+//					var xPix = imagePixels[pixelIndex];
+//					var yPix = imagePixels[pixelIndex + 1];
+//					var zPix = imagePixels[pixelIndex + 2];
+//					var wPix = 255;
+//					buf.push(xPix);
+//					buf.push(yPix);
+//					buf.push(zPix);
+//					buf.push(wPix);
+//
+//					imagePixels[pixelIndex + 0] = 0;
+//					imagePixels[pixelIndex + 1] = 0;
+//					imagePixels[pixelIndex + 2] = 0;
+//					imagePixels[pixelIndex + 3] = 0;
+//
+//				}
+//			}
+//		}
+//
+//		//redraw & reposition
+//		var newHeight = maxPixel - minPixel;
+//		var startPixel = Math.floor(outerHeight / 2 - newHeight / 2);
+//		var bufferIndex = 0;
+//		//console.log("Start Y " + startPixel);
+//		//console.log("New Height " + newHeight);
+//		//console.log("OuterHeight" + outerHeight);
+//		textureClampHeight = newHeight;
+//		for (var u = 0; u < outerWidth; u++) {
+//			for (var v = startPixel; v <= startPixel + newHeight; v++) {
+//				pixelIndex = (v * outerWidth + u) * 4;
+//				if (v >= startPixel && v <= startPixel + newHeight) {
+//					imagePixels[pixelIndex + 0] = buf[bufferIndex + 0];
+//					imagePixels[pixelIndex + 1] = buf[bufferIndex + 1];
+//					imagePixels[pixelIndex + 2] = buf[bufferIndex + 2];
+//					imagePixels[pixelIndex + 3] = buf[bufferIndex + 3];
+//					bufferIndex += 4;
+//				}
+//			}
+//		}
+//		buf = null;
+//		return imageData.data;
+//	}
 
 	function convertToEqui(imageData, width, height, offsetWidth, offsetHeight) {
 
@@ -672,7 +672,7 @@
 				var newWidth = aImg.width;
 				var newHeight = aImg.height;
 				var oldWidth = newWidth;
-				var resize = false;
+//				var resize = false;
 				backcvs = document.getElementById('backCanvas');
 				backcvs.crossOrigin = "Anonymous";
 				
@@ -700,37 +700,43 @@
 				setFOV(FOV);
 				console.log("height: " + newHeight + " width: " + newWidth + " FOV: " + FOV);
 				console.log("cH: " + backcvs.height + "cW: " + backcvs.width);
+ 
+ 
 				//bubble_details.MAX_WIDTH = 2048;
-				if (bubble_details.MAX_WIDTH) {
-					if (oldWidth > bubble_details.MAX_WIDTH) {
-						newHeight *= bubble_details.MAX_WIDTH / newWidth;
-						newWidth = bubble_details.MAX_WIDTH;
-						resize = true;
+                var useMaxWidth = bubble_details.MAX_WIDTH;
+
+                if (!isFullScreen) {
+                    if (bubble_details.MAX_WIDTH) {
+                        useMaxWidth = Math.min(bubble_details.MAX_WIDTH, 2048);
+                    }
+                }
+				if (useMaxWidth) {
+					if (oldWidth > useMaxWidth) {
+						newHeight *= useMaxWidth / newWidth;
+						newWidth = useMaxWidth;
 					}
-				} else {
-					resize = true;
 				}
 
 				gImage = document.createElement('canvas');
 				gImage.crossOrigin = "Anonymous";
 				
 				gCtxImg = gImage.getContext("2d");
-				var newImageData = undefined;
+				//var newImageData = undefined;
 				newWidth = Math.floor(newWidth);
 				newHeight = Math.floor(newHeight);
 				
-				if (resize) {
-					gImage.width = newWidth;
-					gImage.height = newHeight;
-					gCtxImg.clearRect(0, 0, newWidth, newHeight);
-					gCtxImg.drawImage(aImg, 0, 0, newWidth, newHeight);
-					newImageData = gCtxImg.getImageData(0, 0, newWidth, newHeight);
+				//if (resize) {
+					//gImage.width = newWidth;
+					//gImage.height = newHeight;
+					//gCtxImg.clearRect(0, 0, newWidth, newHeight);
+					//gCtxImg.drawImage(aImg, 0, 0, newWidth, newHeight);
+					//newImageData = gCtxImg.getImageData(0, 0, newWidth, newHeight);
 					//var newData = newImageData.zz
 					//console.log("Resized IMAGEDATA Bytes: " + newImageData.data.length);
 					//console.log("Have Resized Image");
-					gCtxImg.clearRect(0, 0, newWidth, newHeight);
+					//gCtxImg.clearRect(0, 0, newWidth, newHeight);
 					//console.log("NEWIMAGEDATA: " + newImageData.data.length);
-				}
+				//}
 				var max = Math.max(newWidth, newHeight);
 				if (max) {
 					textureWidth = max;
@@ -744,20 +750,14 @@
 				
 				
 				gCtxImg = gImage.getContext("2d");
-				gCtxImg.clearRect(0, 0, textureHeight, textureWidth);
-				if (resize) {
-					gCtxImg.putImageData(newImageData, Math.floor((max - newWidth) / 2), Math.floor((max - newHeight) / 2));
-				} else {
-					gCtxImg.drawImage(aImg, 0, Math.floor((max - newHeight) / 2));
-				}
+				//gCtxImg.clearRect(0, 0, textureWidth, textureHeight);
+ 
+                gCtxImg.drawImage(aImg, Math.floor((max - newWidth) / 2), Math.floor((max - newHeight) / 2), newWidth, newHeight);
+ 
 				textureImageData = gCtxImg.getImageData(0, 0, textureHeight, textureWidth);
 
+				textureData = textureImageData.data;
 				gCtxImg = null;
-				if (resize) {
-					textureData = cropBubblePodImage(textureImageData, textureWidth, textureHeight, 0, newHeight);
-				} else {
-					textureData = cropBubblePodImage(textureImageData, textureWidth, textureHeight, 0, aImg.height);
-				}
 
 			}
 		} else if (isUnWrappedImage && !isUnWrappedVideo) {
