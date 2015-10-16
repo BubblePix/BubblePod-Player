@@ -1802,7 +1802,7 @@
 		console.log("FOV:"+FOV);
 		originalCanWidth = canvasWidth;
 		canWidth = canvasWidth;
-		canHeight = canWidth * 2;
+		canHeight = canWidth * 1.5;
 	};
 
 	function parseXML(xml) {
