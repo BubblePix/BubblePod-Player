@@ -26,7 +26,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	width:320px;
+/*	width:100%;*/
 	
 }
 ol, ul {
@@ -58,7 +58,7 @@ html {
 	background-position-y: 0px, 0px, 180px;
 	/* background-attachment:scroll, fixed, scroll; */
 	font-family:Verdana,Arial,Helvetica, sans-serif;
-	width:320px;
+/*	width:320px;*/
 	
 }
 
@@ -75,7 +75,7 @@ margin: 0 auto;
 /* Top Bar */
 
 #header {
-	/* background: url("/assets/images/gradientTop.png") repeat-x; */
+	/* background: url("/assets/gradientTop.png") repeat-x; */
 	/* height: 134px; */
 	background: white;
 }
@@ -108,7 +108,7 @@ margin: 0 auto;
 }
 
 #create a:hover{
-	/*background: url("/assets/images/createBackgroundInvert.png") repeat-x;*/
+	/*background: url("/assets/createBackgroundInvert.png") repeat-x;*/
 }
 
 #create p {
@@ -125,7 +125,7 @@ margin: 0 auto;
 }
 
 #createButton{
-	background: url("/assets/images/createBackground.png") repeat-x;
+	background: url("/assets/createBackground.png") repeat-x;
 	/* margin-top: 18px; */
 	height: 30px;
 	width: 80px;
@@ -281,7 +281,7 @@ margin: 0 auto;
 }
 
 #navigation{
-	background: url("/assets/images/navigation.png") no-repeat;
+	background: url("/assets/navigation.png") no-repeat;
 	background-size: 300px, 32px;
 	width: 300px;
 	height: 32px;
@@ -318,7 +318,7 @@ margin: 0 auto;
 }
 
 .searchbutton{
-	background: url("/assets/images/searchButton.png") transparent no-repeat;
+	background: url("/assets/searchButton.png") transparent no-repeat;
 	border: none;
 	position: absolute;
 	margin-left: 248px;
@@ -341,7 +341,7 @@ margin: 0 auto;
 /* INTRO SECTION */
 #intro{
 	margin-top: 13px;
-	background: url("/assets/images/gradientTopBlack.png");
+	background: url("/assets/gradientTopBlack.png");
 	height: 320px;
 	-webkit-border-bottom-left-radius: 10px;
 	-webkit-border-bottom-right-radius: 10px;
@@ -350,7 +350,7 @@ margin: 0 auto;
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
 	display:none;
-	width:320px;
+/*	width:320px;*/
 }
 
 #intro img.whatsBubbleBanner{
@@ -408,7 +408,7 @@ img.scopeAndPhones{
 	}
 
 .shopButton{
-	background: url("/assets/images/createBackground.png") repeat-x;
+	background: url("/assets/createBackground.png") repeat-x;
 	line-height: 28px;
 	color: white;
 	-moz-border-radius: 10px;
@@ -504,11 +504,11 @@ img.bubblePodHeader
 	display:none;
 }
 #openclose.opened{
-	background: url("/assets/images/openButton.png") no-repeat;
+	background: url("/assets/openButton.png") no-repeat;
 }
 
 #openclose{
-	background: url("/assets/images/closeButton.png") no-repeat;
+	background: url("/assets/closeButton.png") no-repeat;
 }
 /* MAIN SECTION */
 
@@ -571,7 +571,7 @@ img.bubblePodHeader
 }
 
 /*#popularBubbles div.bubble{
-	background: url("/assets/images/bubbleBackground.png") no-repeat;
+	background: url("/assets/bubbleBackground.png") no-repeat;
 	width: 290px;
 	height: 150px;
 	float: left;
@@ -797,7 +797,7 @@ a.viewAllUser{
 
 #popularBubblers{
 	float: left;
-	background: url("/assets/images/gradientBottomWhite.png") repeat-x;
+	background: url("/assets/gradientBottomWhite.png") repeat-x;
 	width: 310px;
 	padding-bottom: 26px;
 }
@@ -812,7 +812,7 @@ a.viewAllUser{
 	font-size: 10px;
 	color: #929292;
 	padding-bottom: 14px;
-	background: url("/assets/images/popularFrame.png") no-repeat;
+	background: url("/assets/popularFrame.png") no-repeat;
 }
 
 #popularUser img{
@@ -855,7 +855,7 @@ a.viewAllUser{
 	float: left;
 	width: 100%;
 	/*height: 300px;*/
-	/* background: url("/assets/images/bottomBlack.png") repeat-x; */
+	/* background: url("/assets/bottomBlack.png") repeat-x; */
 	-moz-border-radius-bottomleft: 30px;
 	-webkit-border-bottom-left-radius: 00px;
 	background-color: rgba(77, 77, 77, 0.8);
@@ -890,7 +890,7 @@ div#followUs span{
 #downloadApp{
 	width: 100%;
 	height: 320px;
-	/* background: url("/assets/images/bottomBlackDark.png") repeat-x; */
+	/* background: url("/assets/bottomBlackDark.png") repeat-x; */
 	float: left;
 	-moz-border-radius-bottomright: 30px;
 	-webkit-border-bottom-right-radius: 0px;
@@ -1074,7 +1074,7 @@ input.inappropriate{
 }
 
 .tagSection span.tag, #viewBubble div.tagSection span.tagAdd, input.tagAdd{
-	background: url("/assets/images/tagEnd.png"), url("/assets/images/tagBack.png");
+	background: url("/assets/tagEnd.png"), url("/assets/tagBack.png");
 	background-repeat: no-repeat, repeat-x;
 	background-position-x: 0px, 12px;
 	padding: 4px 5px 6px 16px;
@@ -1085,7 +1085,7 @@ input.inappropriate{
 }
 
 .tagSection span.devicetag{
-	background: url("/assets/images/tagEndGrey.png"), #E6E6E6;
+	background: url("/assets/tagEndGrey.png"), #E6E6E6;
 	background-repeat: no-repeat, repeat-x;
 	background-position-x: 0px, 12px;
 	padding: 4px 5px 4px 16px;
@@ -1238,7 +1238,7 @@ input.inappropriate{
 
 #shareBubble input.copyCode{
 	margin-left: 154px;
-	background: url("/assets/images/copycode.png") no-repeat;
+	background: url("/assets/copycode.png") no-repeat;
 	width: 75px;
 	border: none;
 	text-indent: -1000em;

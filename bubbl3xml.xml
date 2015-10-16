@@ -15,7 +15,7 @@
     <!-- <logo path="https://s3-eu-west-1.amazonaws.com/files.bubblepix.com/site/sys_img/bubblepixlogo.png" posx="10" posy="10"/> -->
   </user_panel>
   <play_objects>
-    <auto init_start="yes" pan_speed="-0.30"/>
+    <auto init_start="no" pan_speed="-0.30"/>
     <crop width="0.0" height="0.98759687" cx="0.5" cy="0.5" inner_circle="0.5"/>
     <behavior pause_on_start="yes" start_button="yes"/>
     <projection proj_type="1" elevation="40" depression="35" implicit="yes"/>

@@ -101,7 +101,7 @@
 	bottom:5px;
 	pointer-events:all;
 	cursor: pointer;
-	display:none; /* hidden initially */
+	display:block; /* hidden initially */
 }
 
 #rotate_right{
@@ -110,7 +110,7 @@
 	bottom:5px;
 	pointer-events:all;
 	cursor: pointer;
-	display:none; /* hidden initially */
+	display:block; /* hidden initially */
 }
 
 #rotate img, #rotate_off img, #rotate_left img, #rotate_right img{
