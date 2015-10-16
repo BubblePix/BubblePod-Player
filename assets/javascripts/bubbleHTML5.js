@@ -378,7 +378,7 @@
 				
 				if (!mouseIsDown && !auto_rotate) {
 				
-					xMovement = xMovement / 1.1;
+					xMovement = xMovement / 1.05;
 					xNumber = xMovement;
 				} else {
 					xNumber = xMovement;
@@ -1265,7 +1265,7 @@
 	//bubble interaction specific variables
 	var bubbleCanvas;
 	var textureClampHeight;
-	var auto_rotate = true;
+	var auto_rotate = false;
 	var isUserInteracting = false;
 	var isLeftInteracting = false;
 	var isRightInteracting = false;
@@ -1646,7 +1646,7 @@
 			//eventMouseY = event.clientY;
 			yMovement = ~~((onMouseDownEventY - eventMouseY) / 2);
 			// / 20000000;
-			xMovement = ((onMouseDownEventX - eventMouseX) + xMovement) / 2500000;
+			xMovement = ((onMouseDownEventX - eventMouseX) + xMovement) / 1500000;
 
 			if (auto_rotate)
 				xMovement += 0.000002;
@@ -1822,7 +1822,7 @@
 			bubble_details.maxDiam = parseFloat(xml.getElementsByTagName('play_objects')[0].getElementsByTagName('crop')[0].getAttribute('height'));
 		}
 
-		var initStartString = true;
+		var initStartString = false;
 		if (!isUnWrappedVideo)
 			xml.getElementsByTagName("play_objects")[0].getElementsByTagName('auto')[0].getAttribute('init_start');
 
@@ -1831,9 +1831,9 @@
 			document.getElementById("rotate").style.display = 'block';
 			document.getElementById("rotate_off").style.display = 'none';
 		} else {
-			auto_rotate = true;
-			document.getElementById("rotate").style.display = 'block';
-			document.getElementById("rotate_off").style.display = 'none';
+			auto_rotate = false;
+			document.getElementById("rotate").style.display = 'none';
+			document.getElementById("rotate_off").style.display = 'block';
 		}
 
 	}
