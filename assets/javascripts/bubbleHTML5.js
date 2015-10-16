@@ -1646,7 +1646,7 @@
 			//eventMouseY = event.clientY;
 			yMovement = ~~((onMouseDownEventY - eventMouseY) / 2);
 			// / 20000000;
-			xMovement = ((onMouseDownEventX - eventMouseX) + xMovement) / 1500000;
+			xMovement = ((onMouseDownEventX - eventMouseX) + xMovement) / 1000000;
 
 			if (auto_rotate)
 				xMovement += 0.000002;
