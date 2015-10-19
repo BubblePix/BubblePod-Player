@@ -670,6 +670,7 @@
 	}
 
 	function copyImageToBuffer(aImg) {
+		
 		var needsReloading = false;
 		if (originalImage === undefined || isUnWrappedVideo) {
 			originalImage = aImg;
@@ -682,41 +683,22 @@
 				var newWidth = aImg.width;
 				var newHeight = aImg.height;
 				var oldWidth = newWidth;
-//				var resize = false;
-				backcvs = document.getElementById('backCanvas');
-				backcvs.crossOrigin = "Anonymous";
-				
-				bcv = backcvs.getContext("2d");
-				
-				//the fov calculation below is slightly off (it works for wide angle but the fov is ~10% too small for non wide angle)
-				// FOV = (-100 * (newHeight/newWidth)) + ((388 / newHeight) * 80);
-				// FOV = backcvs.height * (newHeight/newWidth) * (newHeight/newWidth) * 1.2;
-				
-				//This works for non wide angle fine! The 92 is to give it some room so there's no white
-				// FOV = backcvs.height / newHeight * 92;
-				var imageFOV = (backcvs.height / ((newHeight / newWidth) * newHeight))
-				var el = document.getElementById("bubble");
+
+				var imageFOV = newHeight/newWidth; //(backcvs.height / ((newHeight / newWidth) * newHeight))
 				// alert(document.getElementById("bubble").offsetHeight + ", " + document.getElementById("bubble").offsetWidth + "x" + imageFOV);
-				FOV = (el.offsetHeight / el.offsetWidth) * imageFOV * (imageFOV/(el.offsetHeight / el.offsetWidth)) * 200;
+				// FOV = (el.offsetHeight / el.offsetWidth) * imageFOV * (imageFOV/(el.offsetHeight / el.offsetWidth)) * 700;
+				FOV = imageFOV * 100;
 				
-				// document.getElementById("bubble").style.height = document.getElementById("bubble").offsetWidth * FOV
-				// console.log("elHeight = " + el.offsetHeight + " " + el.offsetWidth);
-				
-				// FOV = newHeight / newWidth * 100;
-				// FOV = 20
-				// if(FOV > 32)
-// 				{
-// 					FOV = 32;
-// 				}
+				if(FOV > 28)
+				{
+					FOV = 28;
+				}
 // 				else if(FOV < 15)
 // 				{
 // 					FOV = 15;
 // 				}
 				
 				setFOV(FOV);
-				console.log("height: " + newHeight + " width: " + newWidth + " FOV: " + FOV);
-				console.log("cH: " + backcvs.height + "cW: " + backcvs.width);
- 
  
 				//bubble_details.MAX_WIDTH = 2048;
                 var useMaxWidth = bubble_details.MAX_WIDTH;
