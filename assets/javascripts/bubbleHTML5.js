@@ -694,18 +694,24 @@
 				
 				//This works for non wide angle fine! The 92 is to give it some room so there's no white
 				// FOV = backcvs.height / newHeight * 92;
-				// FOV = (backcvs.height / ((newHeight / newWidth) * newHeight)) * 100
+				var imageFOV = (backcvs.height / ((newHeight / newWidth) * newHeight))
+				var el = document.getElementById("bubble");
+				// alert(document.getElementById("bubble").offsetHeight + ", " + document.getElementById("bubble").offsetWidth + "x" + imageFOV);
+				FOV = (el.offsetHeight / el.offsetWidth) * imageFOV * (imageFOV/(el.offsetHeight / el.offsetWidth)) * 200;
 				
-				FOV = newHeight / newWidth * 100;
+				// document.getElementById("bubble").style.height = document.getElementById("bubble").offsetWidth * FOV
+				// console.log("elHeight = " + el.offsetHeight + " " + el.offsetWidth);
+				
+				// FOV = newHeight / newWidth * 100;
 				// FOV = 20
-				if(FOV > 32)
-				{
-					// FOV = 32;
-				}
-				else if(FOV < 15)
-				{
-					// FOV = 15;
-				}
+				// if(FOV > 32)
+// 				{
+// 					FOV = 32;
+// 				}
+// 				else if(FOV < 15)
+// 				{
+// 					FOV = 15;
+// 				}
 				
 				setFOV(FOV);
 				console.log("height: " + newHeight + " width: " + newWidth + " FOV: " + FOV);
@@ -1800,9 +1806,13 @@
 	this.setEquiParameters = function(fov, canvasWidth) {
 		FOV = fov;
 		console.log("FOV:"+FOV);
+		
+		var el = document.getElementById("bubble");
+		var aspect = (el.offsetHeight / el.offsetWidth);
+		
 		originalCanWidth = canvasWidth;
 		canWidth = canvasWidth;
-		canHeight = canWidth * 1.5;
+		canHeight = canvasWidth / aspect * 0.9; //0.9 is a fudge to stretch image slightly width wise so it looks more natural
 	};
 
 	function parseXML(xml) {
