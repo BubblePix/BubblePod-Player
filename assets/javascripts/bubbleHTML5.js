@@ -388,7 +388,8 @@
 				var startTime2Render = new Date().getTime();
 				var idxC = (pixel - 1) * 4;
 				var vector;
-				var finalYRotation = (textureHeight * yRotVal );
+				var finalYRotation = 0;
+				// var finalYRotation = (textureHeight * yRotVal );
 				var processIndex = 0;
 				if (!isFullScreen) {
 
