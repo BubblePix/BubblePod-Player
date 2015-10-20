@@ -321,7 +321,7 @@
 			};
 		})();
 
-		var posDelta = textureWidth * 0.00005;
+		var posDelta = textureWidth * 0.00002;
 		//textureWidth / (20 * 1000
 		var firstFramePos = (new Date()) * posDelta;
 
@@ -378,11 +378,11 @@
 				var xNumber = 0;
 				
 				if (!mouseIsDown && !auto_rotate) {
-					xMovement = xMovement / 1.25;
+					xMovement = xMovement / 1.2;
 					xNumber = xMovement;
 				} else {
 					xNumber = xMovement;
-					xMovement = xMovement / 1.25;
+					xMovement = xMovement / 1.2;
 				}
 				
 				var startTime2Render = new Date().getTime();
