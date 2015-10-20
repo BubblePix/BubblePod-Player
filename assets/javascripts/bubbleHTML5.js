@@ -363,6 +363,7 @@
 				/*
 				 yRotVal *= ( (time - lastTime) * posDelta)/10;
 				 yRotVal = Math.floor(yRotVal);*/
+				
 				startTime2Render = new Date().getTime();
 
 				if (rx === null)
@@ -371,24 +372,23 @@
 				// add to 24*60*60 so it will be a day before turnBy is negative and it hits the slow negative modulo bug
 				var pixel = cWidth * cHeight;
 
-				//yRotVal = YClamp(yRotVal);
+				yRotVal = YClamp(yRotVal);
 				var xRotNumber = xRot;
 
 				var xNumber = 0;
 				
 				if (!mouseIsDown && !auto_rotate) {
-				
-					xMovement = xMovement / 1.05;
+					xMovement = xMovement / 1.25;
 					xNumber = xMovement;
 				} else {
 					xNumber = xMovement;
+					xMovement = xMovement / 1.25;
 				}
-				
 				
 				var startTime2Render = new Date().getTime();
 				var idxC = (pixel - 1) * 4;
 				var vector;
-				var finalYRotation = (textureHeight * lastLegitYRot );
+				var finalYRotation = (textureHeight * yRotVal );
 				var processIndex = 0;
 				if (!isFullScreen) {
 
@@ -433,10 +433,7 @@
 					idxC -= 7;
 				}
 
-				var multiplier = 50000;
-				if (isFullScreen)
-					multiplier /= 3;
-				xRot += xNumber * multiplier * (time - lastTime) * posDelta;
+				xRot += xNumber * (time - lastTime) * posDelta;
 				
 				//bcv.putImageData(canvasImageData, 0, 0);
 				putdata();
@@ -1675,16 +1672,18 @@
 				eventMouseX = event.clientX;
 				eventMouseY = event.clientY;
 			}
-			//eventMouseY = event.clientY;
+			
+			eventMouseY = event.clientY;
 			yMovement = ~~((onMouseDownEventY - eventMouseY) / 2);
 			// / 20000000;
-			xMovement = ((onMouseDownEventX - eventMouseX) + xMovement) / 1000000;
+			xMovement = ((onMouseDownEventX - eventMouseX));
 
 			if (auto_rotate)
 				xMovement += 0.000002;
 
-			//yMovement = (onMouseDownEventY - eventMouseY);
-			//yRotVal = yMovement + yRot;
+			yMovement = (onMouseDownEventY - eventMouseY);
+			yRotVal = yMovement + yRot;
+			onMouseDownEventX = eventMouseX;
 		}
 	}
 	
