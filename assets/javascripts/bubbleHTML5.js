@@ -1334,6 +1334,12 @@
 		bubbleCanvas.addEventListener("touchstart", mouseDownEvent, false);
 		bubbleCanvas.addEventListener("touchend", mouseUpEvent, false);
 		bubbleCanvas.addEventListener("touchmove", mouseMoveEvent, false);
+		
+		if (window.DeviceOrientationEvent) {
+			window.addEventListener('deviceorientation', devAccelerometer, false); //accellerometer
+			window.addEventListener('orientationchange', devOrientation, false); //90 deg changes
+		}
+		
 		document.addEventListener("mouseup", mouseUpEvent, false);
 		if (!isUnWrappedImage) {
 			bubbleCanvas.addEventListener('mousewheel', mouseScrollEvent, false);
@@ -1686,6 +1692,21 @@
 			yRotVal = yMovement + yRot;
 			onMouseDownEventX = eventMouseX;
 		}
+	}
+	
+	var initialRotation = 0;
+	function devAccelerometer(event) {
+		var info, xyz = "[X, Y, Z]";
+		
+		if (initialRotation == 0) {
+			initialRotation = event.gamma;
+		}
+		
+		xMovement = (initialRotation-event.gamma) * 0.5;
+	}
+	
+	function devOrientation(event) {
+		
 	}
 	
 	function changeZoom ( scale ) {
