@@ -709,16 +709,22 @@
                     }
                 }
 				if (useMaxWidth) {
-					if (oldWidth > useMaxWidth) {
-						newHeight *= useMaxWidth / newWidth;
-						newWidth = useMaxWidth;
-					}
+//					if (oldWidth > useMaxWidth) {
+//						newHeight *= useMaxWidth / newWidth;
+//						newWidth = useMaxWidth;
+//					}
+ 
+                    if (newWidth > newHeight) {
+                        newHeight *= useMaxWidth / newWidth;
+                        newWidth = useMaxWidth;
+                    }
+                    else {
+                        newWidth *= useMaxWidth / newHeight;
+                        newHeight = useMaxWidth;
+                    }
+ 
 				}
 
-				gImage = document.createElement('canvas');
-				gImage.crossOrigin = "Anonymous";
-				
-				gCtxImg = gImage.getContext("2d");
 				//var newImageData = undefined;
 				newWidth = Math.floor(newWidth);
 				newHeight = Math.floor(newHeight);
@@ -741,18 +747,20 @@
 					textureClampHeight = newHeight;
 					textureHeight = max;
 				}
-
+ 
+ 
+                gImage = document.createElement('canvas');
+                gImage.crossOrigin = "Anonymous";
+ 
+                gCtxImg = gImage.getContext("2d");
 				gImage.width = textureWidth;
 				gImage.height = textureHeight;
-				
-				
-				
-				gCtxImg = gImage.getContext("2d");
-				//gCtxImg.clearRect(0, 0, textureWidth, textureHeight);
+
+                //console.log("Context Size: " + gImage.width + "x" + gImage.height);
  
-                gCtxImg.drawImage(aImg, Math.floor((max - newWidth) / 2), Math.floor((max - newHeight) / 2), newWidth, newHeight);
+				gCtxImg.drawImage(aImg, Math.floor((max - newWidth) / 2), Math.floor((max - newHeight) / 2), newWidth, newHeight);
  
-				textureImageData = gCtxImg.getImageData(0, 0, textureHeight, textureWidth);
+				textureImageData = gCtxImg.getImageData(0, 0, textureWidth, textureHeight);
 
 				textureData = textureImageData.data;
 				gCtxImg = null;
@@ -1017,6 +1025,9 @@
 	var xmlData;
 	var bcWidth;
 	var bcHeight;
+ 
+ var thumbnail = undefined;
+ var fullImageLoaded = false;
 
 	this.createBubble = function(gCanvas, textureUrl, xmlURL) {
 		var loadTexture = false;
@@ -1054,20 +1065,53 @@
 		if (loadTexture && !isUnWrappedVideo) {
 			//loading image for first time
 			canvasImageData = gCtx.createImageData(gCanvas.width, gCanvas.height);
+ 
+            fullImageLoaded = false;
+            thumbnail = new Image();
+            thumbnail.crossOrigin = "Anonymous";
+            window.requestAnimationFrame  = window.requestAnimationFrame || window.mozRequestAnimationFrame|| window.webkitRequestAnimationFrame||window.oRequestAnimationFrame;
+ 
+
+            thumbnail.onload = function() {
+                if (!fullImageLoaded) {
+                    copyImageToBuffer(thumbnail);
+                    earth = sphere(false);
+                    renderAnimationFrame = function(time) {
+                        earth.renderFrame(time);
+                        setTimeout(window.requestAnimationFrame, 10, renderAnimationFrame);
+                    };
+                    window.requestAnimationFrame(renderAnimationFrame);
+                    cancelLoadingScreen();
+ 
+                }
+            };
+ 
+ 
 			img = new Image();
 			img.crossOrigin = "Anonymous";
-			window.requestAnimationFrame  = window.requestAnimationFrame || window.mozRequestAnimationFrame|| window.webkitRequestAnimationFrame||window.oRequestAnimationFrame;
+ 
 			img.onload = function() {
-				copyImageToBuffer(img);
-				earth = sphere(false);
-				renderAnimationFrame = function(time) {
-					earth.renderFrame(time);
-					setTimeout(window.requestAnimationFrame, 10, renderAnimationFrame);
-				};
-				window.requestAnimationFrame(renderAnimationFrame);
-				cancelLoadingScreen();
+                fullImageLoaded = true;
+ 
+                originalImage = undefined;
+                copyImageToBuffer(img);
+                earth = sphere(false);
+                renderAnimationFrame = function(time) {
+                    earth.renderFrame(time);
+                    setTimeout(window.requestAnimationFrame, 10, renderAnimationFrame);
+                };
+                window.requestAnimationFrame(renderAnimationFrame);
+                cancelLoadingScreen();
 			};
-			img.setAttribute("src", textureUrl);
+
+            img.setAttribute("src", textureUrl);
+
+            var thumbnailURL = textureUrl.replace(".jpg","_e.jpg")
+ 
+            setTimeout( function() {
+                       thumbnail.setAttribute("src", thumbnailURL);
+                       }, 10);
+ 
 
 		} else if (loadTexture && isUnWrappedVideo) {
 			//loading video for first time
