@@ -1695,18 +1695,50 @@
 	}
 	
 	var initialRotation = 0;
+	var orientation = returnOrientation(window.orientation);
+	
 	function devAccelerometer(event) {
-		var info, xyz = "[X, Y, Z]";
+		var rotation;
 		
-		if (initialRotation == 0) {
-			initialRotation = event.gamma;
+		
+		
+		switch(orientation) {
+			case 'landscape-left':
+				rotation = event.alpha;
+				// if(rotation < 0) {rotation += 360;}
+			case 'landscape-right':
+				rotation = event.alpha;
+				// if(rotation > 0) {rotation -= 360;}
+			default:
+				rotation = event.gamma;
 		}
 		
-		xMovement = (initialRotation-event.gamma) * 0.5;
+		console.log("x:" + event.alpha)
+		
+		if (initialRotation == 0) {
+			initialRotation = rotation;
+		}
+		
+		xMovement += (initialRotation-rotation);
+		initialRotation = rotation;
+	}
+	
+	function returnOrientation(ori) {
+		console.log("ori: " + ori)
+	    switch(ori) {
+	      case 90:
+	        return 'landscape-left';
+		case -90:
+			return 'landscape-right';
+	      default:
+	        return 'portrait';
+	    }
 	}
 	
 	function devOrientation(event) {
 		
+		orientation = returnOrientation(window.orientation);
+		initialRotation = 0;
 	}
 	
 	function changeZoom ( scale ) {
