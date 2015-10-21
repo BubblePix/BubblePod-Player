@@ -194,11 +194,6 @@
 
 		if (s > 0) {
 
-			var srz = Math.sin(rz);
-			var crz = Math.cos(rz);
-			var sry = Math.sin(ry);
-			var cry = Math.cos(ry);
-
 			m1 = ((-b) - (Math.sqrt(s))) / (2 * a);
 			Y = Y;
 
@@ -207,12 +202,12 @@
 			L[Z] = m1 * V[Z];
 
 			var lx = L[X];
-			L[X] = lx * crz - L[Y] * srz;
-			L[Y] = lx * srz + L[Y] * crz;
+			L[X] = lx * rzCos - L[Y] * rzSin;
+			L[Y] = lx * rzSin + L[Y] * rzCos;
 			var lz;
 			lz = L[Z];
-			L[Z] = lz * cry - L[Y] * sry;
-			L[Y] = lz * sry + L[Y] * cry;
+			L[Z] = lz * ryCos - L[Y] * rySin;
+			L[Y] = lz * rySin + L[Y] * ryCos;
 
 			var lh = textureWidth + textureWidth * (Math.atan2(L[Y], L[X]) + Math.PI ) / (2 * Math.PI);
 			var lv = textureWidth * Math.floor(textureHeight - 1 - (textureHeight * (Math.acos(L[Z] / r) / Math.PI) % textureHeight));
@@ -453,12 +448,30 @@
                  if (rx === null) calculateR();
                  var pixel = cWidth * cHeight;
  
-                 while (pixel--) {
-                    var vector = getVector(pixel);
+ 
+ 
+                 if (isFullScreen) {
+                    if (fullScreenCache === undefined) fullScreenCache = new Array(cWidth * cHeight);
+                    while (pixel--) {
+                         if (fullScreenCache[pixel] === undefined) {
+                            var v = Math.floor(pixel / cWidth);
+                            var h = pixel - v * cWidth;
+                            fullScreenCache[pixel] = calculateVector(h, v);
+                         }
+                    }
+                 
                  }
-            }
- 
- 
+                 else {
+                    if (smallScreenCache === undefined) smallScreenCache = new Array(cWidth * cHeight);
+                    while (pixel--) {
+                         if (smallScreenCache[pixel] === undefined) {
+                            var v = Math.floor(pixel / cWidth);
+                            var h = pixel - v * cWidth;
+                            smallScreenCache[pixel] = calculateVector(h, v);
+                        }
+                    }
+                 }
+             }
 		};
 	};
 
@@ -502,6 +515,12 @@
 		rx = RX * Math.PI / 180;
 		ry = RY * Math.PI / 180;
 		rz = RZ * Math.PI / 180;
+ 
+        rySin = Math.sin(ry);
+        ryCos = Math.cos(ry);
+        rzSin = Math.sin(rz);
+        rzCos = Math.cos(rz);
+ 
 	}
 
 //	function cropBubblePodImage(imageData, outerWidth, outerHeight, innerWidth, innerHeight) {
