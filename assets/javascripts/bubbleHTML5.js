@@ -1059,9 +1059,9 @@
 	var bcWidth;
 	var bcHeight;
  
- var thumbnail = undefined;
- var fullImageLoaded = false;
-
+    var thumbnail = undefined;
+    var fullImageLoaded = false;
+ 
 	this.createBubble = function(gCanvas, textureUrl, xmlURL) {
 		var loadTexture = false;
 		if (img === undefined) {
@@ -1106,28 +1106,26 @@
  
 
             thumbnail.onload = function() {
-                if (!fullImageLoaded) {
-                    copyImageToBuffer(thumbnail);
-                    earth = sphere(false);
-                    renderAnimationFrame = function(time) {
-                        earth.renderFrame(time);
-                        setTimeout(window.requestAnimationFrame, 10, renderAnimationFrame);
-                    };
-                    window.requestAnimationFrame(renderAnimationFrame);
-                    cancelLoadingScreen();
+                if (fullImageLoaded) return;
+                copyImageToBuffer(thumbnail);
+                earth = sphere(false);
  
-                }
+                if (fullImageLoaded) return;
+                renderAnimationFrame = function(time) {
+                    earth.renderFrame(time);
+                };
+                window.requestAnimationFrame(renderAnimationFrame);
+                cancelLoadingScreen();
             };
- 
+            thumbnail.setAttribute("src", textureUrl.replace(".jpg","_e.jpg") );
  
 			img = new Image();
 			img.crossOrigin = "Anonymous";
  
 			img.onload = function() {
-                fullImageLoaded = true;
- 
                 originalImage = undefined;
                 copyImageToBuffer(img);
+                fullImageLoaded = true;
                 earth = sphere(false);
                 renderAnimationFrame = function(time) {
                     earth.renderFrame(time);
@@ -1136,19 +1134,15 @@
                 window.requestAnimationFrame(renderAnimationFrame);
                 cancelLoadingScreen();
 			};
-
-            img.setAttribute("src", textureUrl);
-
-            var thumbnailURL = textureUrl.replace(".jpg","_e.jpg")
  
-            setTimeout( function() {
-                       thumbnail.setAttribute("src", thumbnailURL);
-                       }, 10);
+            setTimeout( function () {
+                        img.setAttribute("src", textureUrl);
+                       }, 0);
  
- textureWidth = 2048;
- textureHeight = 2048;
- sphere(false).prepareFrame();
-
+            textureWidth = 2048;
+            textureHeight = 2048;
+            sphere(false).prepareFrame();
+ 
 		} else if (loadTexture && isUnWrappedVideo) {
 			//loading video for first time
 			canvasImageData = gCtx.createImageData(gCanvas.width, gCanvas.height);
