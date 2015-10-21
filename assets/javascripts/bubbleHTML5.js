@@ -444,7 +444,21 @@
 
 				var time2Render = (new Date().getTime() - startTime2Render);
 				//	//console.log("Time to render: " + time2Render);
-			}
+			},
+ 
+ 
+ 
+            prepareFrame : function() {
+
+                 if (rx === null) calculateR();
+                 var pixel = cWidth * cHeight;
+ 
+                 while (pixel--) {
+                    var vector = getVector(pixel);
+                 }
+            }
+ 
+ 
 		};
 	};
 
@@ -1112,6 +1126,9 @@
                        thumbnail.setAttribute("src", thumbnailURL);
                        }, 10);
  
+ textureWidth = 2048;
+ textureHeight = 2048;
+ sphere(false).prepareFrame();
 
 		} else if (loadTexture && isUnWrappedVideo) {
 			//loading video for first time
