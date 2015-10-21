@@ -1296,6 +1296,7 @@
 	var bubbleCanvas;
 	var textureClampHeight;
 	var auto_rotate = false;
+	var use_compass = true;
 	var isUserInteracting = false;
 	var isLeftInteracting = false;
 	var isRightInteracting = false;
@@ -1386,6 +1387,13 @@
 		 //////console.log(el + " 2");
 		 }
 		 
+		 el = document.getElementById("compass_on");
+		 if (el.addEventListener) { el.addEventListener("click", toggleCompassButtonClick, false); } 
+		 else if (el.attachEvent) { el.attachEvent('onclick', toggleCompassButtonClick); }
+		 el = document.getElementById("compass_off");
+		 if (el.addEventListener) { el.addEventListener("click", toggleCompassButtonClick, false); } 
+		 else if (el.attachEvent) { el.attachEvent('onclick', toggleCompassButtonClick); }
+		 
 		 el = document.getElementById("rotate_left");
 		 if (el.addEventListener) {
 		 el.addEventListener("mouseup", toggleRotateLeftClick, false);
@@ -1454,6 +1462,18 @@
 		}
 	}
 
+	function toggleCompassButtonClick() {
+		use_compass = !use_compass;
+
+		if (use_compass) {
+			document.getElementById("compass_on").style.display = 'block';
+			document.getElementById("compass_off").style.display = 'none';
+		} else {
+			document.getElementById("compass_on").style.display = 'none';
+			document.getElementById("compass_off").style.display = 'block';
+		}
+	}
+	
 	function toggleRotateLeftClick() {
 		xRot -= 45;
 	}
@@ -1698,29 +1718,27 @@
 	var orientation = returnOrientation(window.orientation);
 	
 	function devAccelerometer(event) {
-		var rotation;
+		if (use_compass) {
+			var rotation;
 		
+			switch(orientation) {
+				case 'landscape-left':
+					rotation = event.alpha;
+					// if(rotation < 0) {rotation += 360;}
+				case 'landscape-right':
+					rotation = event.alpha;
+					// if(rotation > 0) {rotation -= 360;}
+				default:
+					rotation = event.gamma;
+			}
 		
+			if (initialRotation == 0) {
+				initialRotation = rotation;
+			}
 		
-		switch(orientation) {
-			case 'landscape-left':
-				rotation = event.alpha;
-				// if(rotation < 0) {rotation += 360;}
-			case 'landscape-right':
-				rotation = event.alpha;
-				// if(rotation > 0) {rotation -= 360;}
-			default:
-				rotation = event.gamma;
-		}
-		
-		console.log("x:" + event.alpha)
-		
-		if (initialRotation == 0) {
+			xMovement += (initialRotation-rotation);
 			initialRotation = rotation;
 		}
-		
-		xMovement += (initialRotation-rotation);
-		initialRotation = rotation;
 	}
 	
 	function returnOrientation(ori) {
@@ -1917,14 +1935,21 @@
 
 		if (initStartString == 'yes') {
 			auto_rotate = true;
-			document.getElementById("rotate").style.display = 'block';
+			document.getElementById("rotate").style.display = 'none';
 			document.getElementById("rotate_off").style.display = 'none';
 		} else {
 			auto_rotate = false;
 			document.getElementById("rotate").style.display = 'none';
-			document.getElementById("rotate_off").style.display = 'block';
+			document.getElementById("rotate_off").style.display = 'none';
 		}
-
+		
+		if (use_compass && window.DeviceOrientationEvent) {
+			document.getElementById("compass_on").style.display = 'block';
+			document.getElementById("compass_off").style.display = 'none';
+		} else {
+			document.getElementById("compass_on").style.display = 'none';
+			document.getElementById("compass_off").style.display = 'none';
+		}
 	}
 
 }).call(this);

@@ -994,7 +994,7 @@ div#followUs span{
 
 
 #bubblerPlayback {
-	float: left;
+	width: 100%;
 }
 
 #bubblerPlayback h2 {
@@ -1003,7 +1003,6 @@ div#followUs span{
 	color: #656565;
 	margin-left: 18px;
 	padding-top: 10px;
-	/* width: 612px; */
 }
 
 #bubblerPlayback .private {

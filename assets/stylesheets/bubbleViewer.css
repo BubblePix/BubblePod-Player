@@ -95,13 +95,27 @@
 	font-family:Verdana,Arial,Helvetica, sans-serif;
 }
 
+#compass_on, #compass_off{
+	position:absolute;
+	right:10px;
+	bottom:5px;
+	pointer-events:all;
+	cursor: pointer;
+	display:none; /* hidden initially */
+	color: #de005b;
+}
+
+#compass_on img, #compass_off img {
+	width: 28px;
+}
+
 #rotate_left{
 	position:absolute;
 	left:40%;
 	bottom:5px;
 	pointer-events:all;
 	cursor: pointer;
-	display:block; /* hidden initially */
+	display:none; /* hidden initially */
 }
 
 #rotate_right{
@@ -110,7 +124,7 @@
 	bottom:5px;
 	pointer-events:all;
 	cursor: pointer;
-	display:block; /* hidden initially */
+	display:none; /* hidden initially */
 }
 
 #rotate img, #rotate_off img, #rotate_left img, #rotate_right img{
