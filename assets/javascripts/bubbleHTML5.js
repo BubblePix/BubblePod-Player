@@ -429,7 +429,7 @@
 					idxC -= 7;
 				}
 
-				xRot += xNumber * (time - lastTime) * posDelta;
+				xRot += xNumber * (time - lastTime) * 0.08;
 				
 				//bcv.putImageData(canvasImageData, 0, 0);
 				putdata();
