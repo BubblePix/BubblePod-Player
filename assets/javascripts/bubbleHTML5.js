@@ -1009,6 +1009,7 @@
 	};
 
 	this.initHTML5 = function(isEqui, textureUrl, textureXMLUrl, canvasWidth, textureResizeWidth, sScreenCache, fScreenCache, fov) {
+ 
 		//Set parameters functions for EITHER unwrapped(bubblepix) image (A), or Equi Parameters (B) for Equirectangular images
 		//Must be set before createSphere is called
 
@@ -1105,18 +1106,20 @@
             window.requestAnimationFrame  = window.requestAnimationFrame || window.mozRequestAnimationFrame|| window.webkitRequestAnimationFrame||window.oRequestAnimationFrame;
  
 
+            var previewAnimationFrame;
             thumbnail.onload = function() {
                 if (fullImageLoaded) return;
                 copyImageToBuffer(thumbnail);
                 earth = sphere(false);
- 
                 if (fullImageLoaded) return;
-                renderAnimationFrame = function(time) {
+                previewAnimationFrame = function(time) {
                     earth.renderFrame(time);
+                    setTimeout(window.requestAnimationFrame, 10, previewAnimationFrame);
                 };
-                window.requestAnimationFrame(renderAnimationFrame);
+                window.requestAnimationFrame(previewAnimationFrame);
                 cancelLoadingScreen();
             };
+ 
             thumbnail.setAttribute("src", textureUrl.replace(".jpg","_e.jpg") );
  
 			img = new Image();
