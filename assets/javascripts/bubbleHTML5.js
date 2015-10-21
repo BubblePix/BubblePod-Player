@@ -1140,8 +1140,14 @@
                         img.setAttribute("src", textureUrl);
                        }, 0);
  
-            textureWidth = 2048;
-            textureHeight = 2048;
+ 
+            textureWidth = bubble_details.MAX_WIDTH;
+            if (!isFullScreen) {
+                if (bubble_details.MAX_WIDTH) {
+                    textureWidth = Math.min(bubble_details.MAX_WIDTH, 2048);
+                }
+            }
+            textureHeight = textureWidth;
  
             if (!isUnWrappedImage) {
                 sphere(false).prepareFrame();
