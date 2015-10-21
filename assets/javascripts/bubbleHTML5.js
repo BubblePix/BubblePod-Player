@@ -194,11 +194,6 @@
 
 		if (s > 0) {
 
-			var srz = Math.sin(rz);
-			var crz = Math.cos(rz);
-			var sry = Math.sin(ry);
-			var cry = Math.cos(ry);
-
 			m1 = ((-b) - (Math.sqrt(s))) / (2 * a);
 			Y = Y;
 
@@ -207,12 +202,12 @@
 			L[Z] = m1 * V[Z];
 
 			var lx = L[X];
-			L[X] = lx * crz - L[Y] * srz;
-			L[Y] = lx * srz + L[Y] * crz;
+			L[X] = lx * rzCos - L[Y] * rzSin;
+			L[Y] = lx * rzSin + L[Y] * rzCos;
 			var lz;
 			lz = L[Z];
-			L[Z] = lz * cry - L[Y] * sry;
-			L[Y] = lz * sry + L[Y] * cry;
+			L[Z] = lz * ryCos - L[Y] * rySin;
+			L[Y] = lz * rySin + L[Y] * ryCos;
 
 			var lh = textureWidth + textureWidth * (Math.atan2(L[Y], L[X]) + Math.PI ) / (2 * Math.PI);
 			var lv = textureWidth * Math.floor(textureHeight - 1 - (textureHeight * (Math.acos(L[Z] / r) / Math.PI) % textureHeight));
@@ -442,7 +437,39 @@
 
 				var time2Render = (new Date().getTime() - startTime2Render);
 				//	//console.log("Time to render: " + time2Render);
-			}
+			},
+ 
+ 
+ 
+            prepareFrame : function() {
+
+                 if (rx === null) calculateR();
+                 var pixel = cWidth * cHeight;
+ 
+ 
+ 
+                 if (isFullScreen) {
+                    if (fullScreenCache === undefined) fullScreenCache = new Array(cWidth * cHeight);
+                    while (pixel--) {
+                         if (fullScreenCache[pixel] === undefined) {
+                            var v = Math.floor(pixel / cWidth);
+                            var h = pixel - v * cWidth;
+                            fullScreenCache[pixel] = calculateVector(h, v);
+                         }
+                    }
+                 
+                 }
+                 else {
+                    if (smallScreenCache === undefined) smallScreenCache = new Array(cWidth * cHeight);
+                    while (pixel--) {
+                         if (smallScreenCache[pixel] === undefined) {
+                            var v = Math.floor(pixel / cWidth);
+                            var h = pixel - v * cWidth;
+                            smallScreenCache[pixel] = calculateVector(h, v);
+                        }
+                    }
+                 }
+             }
 		};
 	};
 
@@ -486,6 +513,12 @@
 		rx = RX * Math.PI / 180;
 		ry = RY * Math.PI / 180;
 		rz = RZ * Math.PI / 180;
+ 
+        rySin = Math.sin(ry);
+        ryCos = Math.cos(ry);
+        rzSin = Math.sin(rz);
+        rzCos = Math.cos(rz);
+ 
 	}
 
 //	function cropBubblePodImage(imageData, outerWidth, outerHeight, innerWidth, innerHeight) {
@@ -974,6 +1007,7 @@
 	};
 
 	this.initHTML5 = function(isEqui, textureUrl, textureXMLUrl, canvasWidth, textureResizeWidth, sScreenCache, fScreenCache, fov) {
+ 
 		//Set parameters functions for EITHER unwrapped(bubblepix) image (A), or Equi Parameters (B) for Equirectangular images
 		//Must be set before createSphere is called
 
@@ -1024,9 +1058,9 @@
 	var bcWidth;
 	var bcHeight;
  
- var thumbnail = undefined;
- var fullImageLoaded = false;
-
+    var thumbnail = undefined;
+    var fullImageLoaded = false;
+ 
 	this.createBubble = function(gCanvas, textureUrl, xmlURL) {
 		var loadTexture = false;
 		if (img === undefined) {
@@ -1070,29 +1104,29 @@
             window.requestAnimationFrame  = window.requestAnimationFrame || window.mozRequestAnimationFrame|| window.webkitRequestAnimationFrame||window.oRequestAnimationFrame;
  
 
+            var previewAnimationFrame;
             thumbnail.onload = function() {
-                if (!fullImageLoaded) {
-                    copyImageToBuffer(thumbnail);
-                    earth = sphere(false);
-                    renderAnimationFrame = function(time) {
-                        earth.renderFrame(time);
-                        setTimeout(window.requestAnimationFrame, 10, renderAnimationFrame);
-                    };
-                    window.requestAnimationFrame(renderAnimationFrame);
-                    cancelLoadingScreen();
- 
-                }
+                if (fullImageLoaded) return;
+                copyImageToBuffer(thumbnail);
+                earth = sphere(false);
+                if (fullImageLoaded) return;
+                previewAnimationFrame = function(time) {
+                    earth.renderFrame(time);
+                    setTimeout(window.requestAnimationFrame, 10, previewAnimationFrame);
+                };
+                window.requestAnimationFrame(previewAnimationFrame);
+                cancelLoadingScreen();
             };
  
+            thumbnail.setAttribute("src", textureUrl.replace(".jpg","_e.jpg") );
  
 			img = new Image();
 			img.crossOrigin = "Anonymous";
  
 			img.onload = function() {
-                fullImageLoaded = true;
- 
                 originalImage = undefined;
                 copyImageToBuffer(img);
+                fullImageLoaded = true;
                 earth = sphere(false);
                 renderAnimationFrame = function(time) {
                     earth.renderFrame(time);
@@ -1101,16 +1135,15 @@
                 window.requestAnimationFrame(renderAnimationFrame);
                 cancelLoadingScreen();
 			};
-
-            img.setAttribute("src", textureUrl);
-
-            var thumbnailURL = textureUrl.replace(".jpg","_e.jpg")
  
-            setTimeout( function() {
-                       thumbnail.setAttribute("src", thumbnailURL);
-                       }, 10);
+            setTimeout( function () {
+                        img.setAttribute("src", textureUrl);
+                       }, 0);
  
-
+            textureWidth = 2048;
+            textureHeight = 2048;
+            sphere(false).prepareFrame();
+ 
 		} else if (loadTexture && isUnWrappedVideo) {
 			//loading video for first time
 			canvasImageData = gCtx.createImageData(gCanvas.width, gCanvas.height);
