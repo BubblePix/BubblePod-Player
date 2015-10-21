@@ -1142,8 +1142,11 @@
  
             textureWidth = 2048;
             textureHeight = 2048;
-            sphere(false).prepareFrame();
  
+            if (!isUnWrappedImage) {
+                sphere(false).prepareFrame();
+            }
+
 		} else if (loadTexture && isUnWrappedVideo) {
 			//loading video for first time
 			canvasImageData = gCtx.createImageData(gCanvas.width, gCanvas.height);
