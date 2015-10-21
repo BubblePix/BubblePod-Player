@@ -209,7 +209,7 @@
 	<script>
 		window.onload = function(){
 		var isEqui = false
-			isEqui = true;
+			//isEqui = true;
     //Testing if webgl is supported
         // if (!window.WebGLRenderingContext)
 //         {
@@ -237,14 +237,16 @@
 				$( ".ui" ).show();
 				//$( ".loading").remove();
 				
+                
+                
 				if(isEqui)	
 				{
-					initHTML5(isEqui, "IOS_9fe6dc84e8bc54323fb0f1bf620b14a6.jpg", "bubbl3xml.xml?settings=0.98759687,0.0,0.5,0.5,0.5,equi,yes", 640, 4096, null, null, 20); //html5
-				}
-				else
-				{
-					initHTML5(isEqui, "IOS_9fe6dc84e8bc54323fb0f1bf620b14a6.jpg", "bubbl3xml.xml?settings=0.98759687,0.0,0.5,0.5,0.5,equi,yes", 640, 4096, null, null); //html5
-				}
+                    initHTML5(isEqui, "IOS_7b812baa2b019c9b7af83d44c75a3e73.jpg", "bubbl3xml_scope.xml?settings=0.8835,0.662625,0.5177696,0.501634,0.4991511,photo,yes", 640, 4096, null, null, 30); //html5
+                }
+                else
+                {
+                    initHTML5(isEqui, "IOS_7b812baa2b019c9b7af83d44c75a3e73.jpg", "bubbl3xml_scope.xml?settings=0.8835,0.662625,0.5177696,0.501634,0.4991511,photo,yes", 640, 4096, null, null); //html5
+                }
 				//createBubble(document.getElementById("bubble"), "https://bubblepix.com/proxy?url=https://bubbles1.bubblepix.com/ricardombt/ANDROID_97103e1430abcb80af21bdd5da54e9e3.jpg", true, "bubbleViewer"); //html5
 			}
 			else //revert to flash
