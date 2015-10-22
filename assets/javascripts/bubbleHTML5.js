@@ -1750,9 +1750,11 @@
 				case 'landscape-left':
 					rotation = event.alpha;
 					// if(rotation < 0) {rotation += 360;}
+ break;
 				case 'landscape-right':
 					rotation = event.alpha;
 					// if(rotation > 0) {rotation -= 360;}
+ break;
 				default:
 					rotation = event.gamma;
 			}
