@@ -1137,6 +1137,8 @@
                 renderAnimationFrame = function(time) {
                     earth.renderFrame(time);
                     setTimeout(window.requestAnimationFrame, 10, renderAnimationFrame);
+                    previewAnimationFrame = function() {};
+
                 };
                 window.requestAnimationFrame(renderAnimationFrame);
                 cancelLoadingScreen();
