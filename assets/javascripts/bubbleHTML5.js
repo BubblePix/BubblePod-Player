@@ -437,39 +437,8 @@
 
 				var time2Render = (new Date().getTime() - startTime2Render);
 				//	//console.log("Time to render: " + time2Render);
-			},
+			}
  
- 
- 
-            prepareFrame : function() {
-
-                 if (rx === null) calculateR();
-                 var pixel = cWidth * cHeight;
- 
- 
- 
-                 if (isFullScreen) {
-                    if (fullScreenCache === undefined) fullScreenCache = new Array(cWidth * cHeight);
-                    while (pixel--) {
-                         if (fullScreenCache[pixel] === undefined) {
-                            var v = Math.floor(pixel / cWidth);
-                            var h = pixel - v * cWidth;
-                            fullScreenCache[pixel] = calculateVector(h, v);
-                         }
-                    }
-                 
-                 }
-                 else {
-                    if (smallScreenCache === undefined) smallScreenCache = new Array(cWidth * cHeight);
-                    while (pixel--) {
-                         if (smallScreenCache[pixel] === undefined) {
-                            var v = Math.floor(pixel / cWidth);
-                            var h = pixel - v * cWidth;
-                            smallScreenCache[pixel] = calculateVector(h, v);
-                        }
-                    }
-                 }
-             }
 		};
 	};
 
