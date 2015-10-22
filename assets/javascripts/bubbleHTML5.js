@@ -1059,7 +1059,8 @@
 	var bcHeight;
  
     var thumbnail = undefined;
-    var fullImageLoaded = false;
+    var processingPreview = false;
+    var needToProcessFullImage = false;
  
 	this.createBubble = function(gCanvas, textureUrl, xmlURL) {
 		var loadTexture = false;
@@ -1098,35 +1099,40 @@
 			//loading image for first time
 			canvasImageData = gCtx.createImageData(gCanvas.width, gCanvas.height);
  
-            fullImageLoaded = false;
             thumbnail = new Image();
             thumbnail.crossOrigin = "Anonymous";
             window.requestAnimationFrame  = window.requestAnimationFrame || window.mozRequestAnimationFrame|| window.webkitRequestAnimationFrame||window.oRequestAnimationFrame;
  
-
+ 
             var previewAnimationFrame;
             thumbnail.onload = function() {
-                if (fullImageLoaded) return;
+ 
+                processingPreview = true;
+ 
                 copyImageToBuffer(thumbnail);
                 earth = sphere(false);
-                if (fullImageLoaded) return;
                 previewAnimationFrame = function(time) {
                     earth.renderFrame(time);
+                    processingPreview = false;
+                    if (needToProcessFullImage) setTimeout(loadFullImage,20);
                     setTimeout(window.requestAnimationFrame, 10, previewAnimationFrame);
                 };
                 window.requestAnimationFrame(previewAnimationFrame);
                 cancelLoadingScreen();
-            };
  
+            };
             thumbnail.setAttribute("src", textureUrl.replace(".jpg","_e.jpg") );
+ 
+ 
  
 			img = new Image();
 			img.crossOrigin = "Anonymous";
  
-			img.onload = function() {
+ 
+			var loadFullImage = function() {
+                needToProcessFullImage = false;
                 originalImage = undefined;
                 copyImageToBuffer(img);
-                fullImageLoaded = true;
                 earth = sphere(false);
                 renderAnimationFrame = function(time) {
                     earth.renderFrame(time);
@@ -1135,6 +1141,15 @@
                 window.requestAnimationFrame(renderAnimationFrame);
                 cancelLoadingScreen();
 			};
+ 
+            img.onload = function() {
+                if (processingPreview) {
+                    needToProcessFullImage = true;
+                }
+                else {
+                    loadFullImage();
+                }
+            };
  
             setTimeout( function () {
                         img.setAttribute("src", textureUrl);
@@ -1148,10 +1163,6 @@
                 }
             }
             textureHeight = textureWidth;
- 
-            if (!isUnWrappedImage) {
-                sphere(false).prepareFrame();
-            }
 
 		} else if (loadTexture && isUnWrappedVideo) {
 			//loading video for first time
