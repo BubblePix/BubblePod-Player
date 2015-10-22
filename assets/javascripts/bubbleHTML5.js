@@ -1090,8 +1090,9 @@
                 cancelLoadingScreen();
  
             };
-            thumbnail.setAttribute("src", textureUrl.replace(".jpg","_e.jpg") );
- 
+            if (!isUnWrappedImage) {
+                thumbnail.setAttribute("src", textureUrl.replace(".jpg","_e.jpg") );
+            }
  
  
 			img = new Image();
